@@ -1,21 +1,37 @@
 import { hot } from 'react-hot-loader/root';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Login from './Login';
+import Feed from './Feed';
+import CreatePost from './CreatePost';
 
 const App = () => {
-  const [apple, setApple] = useState('apple');
-
-  useEffect(() => {
-    fetch('/api')
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  }, []);
+  // TODO: add necessary user fields
+  // TODO: refactor to context API
+  const [user, setUser] = useState({
+    loggedIn: false,
+    name: null,
+    posts: null,
+  });
 
   return (
-    <div>
-      <h1>F4F KHAP</h1>
-      <p>Changing to check if state persists with HOTTT reload </p>
-      <button onClick={() => setApple('banana')}>{apple}</button>
-    </div>
+    <Router>
+      {/* TODO: extract Header component */}
+      <header>
+        <h1>
+          <Link to='/'>F 4 F</Link>
+        </h1>
+        {user.loggedIn && <button>Log out</button>}
+      </header>
+      <Switch>
+        <Route path='/create-post'>
+          <CreatePost />
+        </Route>
+        <Route path='/'>
+          {user.loggedIn ? <Feed /> : <Login setUser={setUser} />}
+        </Route>
+      </Switch>
+    </Router>
   );
 };
 
