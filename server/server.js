@@ -3,12 +3,27 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const apiRouter = require('./routes/api');
+
 app.use(express.json());
 
-app.get('/api', (req, res) => {
-  return res.status(200).json({ test: 'frontend connected to backend' });
-});
+app.use('/api', apiRouter);
 
 // app.use('/', express.static(path.join(__dirname, '../build')));
+
+app.use('*', (req, res) => {
+	return res.status(404).send('404 invalid route');
+});
+
+app.use((err, res, req, next) => {
+	const defaultError = {
+		log: 'Express error handler caught unknown middleware error',
+		status: 500,
+		message: { err: 'An error occured' },
+	};
+	const errorObj = { ...defaultError, err };
+
+	return res.json(errorObj);
+});
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}...`));
