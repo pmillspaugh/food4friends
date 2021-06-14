@@ -33,13 +33,49 @@ const Login = ({ setUser }) => {
   };
 
   return (
-    <main>
-      <h1>Login page</h1>
-      <Button color='primary' variant='contained' onClick={handleSignInClick}>
-        Sign in with Google
-      </Button>
+    <main style={style.main}>
+      <section style={style.section}>
+        <h1 style={style.h1}>See what&apos;s cookin&apos;{'  '}</h1>
+        <Button
+          variant='contained'
+          style={style.loginButton}
+          onClick={handleSignInClick}
+        >
+          Sign in with Google
+        </Button>
+      </section>
     </main>
   );
+};
+
+const style = {
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '90vh',
+    backgroundColor: 'white',
+  },
+  section: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '24px',
+    backgroundColor: 'hsla(31, 2%, 88%, 1)',
+    border: 'solid hsla(31, 100%, 56%, 1)',
+    padding: '36px 60px',
+    borderRadius: '8px',
+  },
+  h1: {
+    fontFamily: '"Indie Flower", cursive',
+  },
+  loginButton: {
+    color: 'white',
+    opacity: '0.75',
+    backgroundColor: 'hsla(28, 100%, 54%, 1)',
+  },
 };
 
 export default Login;
