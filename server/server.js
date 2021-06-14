@@ -15,7 +15,7 @@ app.use('*', (req, res) => {
 	return res.status(404).send('404 invalid route');
 });
 
-app.use((err, res, req, next) => {
+app.use((err, req, res, next) => {
 	const defaultError = {
 		log: 'Express error handler caught unknown middleware error',
 		status: 500,
@@ -23,7 +23,7 @@ app.use((err, res, req, next) => {
 	};
 	const errorObj = { ...defaultError, err };
 
-	return res.json(errorObj);
+	return res.status(errorObj.status).json(errorObj.message);
 });
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}...`));
