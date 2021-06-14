@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
 
 const Login = ({ setUser }) => {
   const handleSignInClick = () => {
@@ -34,7 +35,9 @@ const Login = ({ setUser }) => {
   return (
     <main>
       <h1>Login page</h1>
-      <button onClick={handleSignInClick}>Sign in with Google</button>
+      <Button color='primary' variant='contained' onClick={handleSignInClick}>
+        Sign in with Google
+      </Button>
     </main>
   );
 };
