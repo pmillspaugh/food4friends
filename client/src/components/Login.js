@@ -13,19 +13,25 @@ const Login = ({ setUser }) => {
           googleAuth
             .signIn()
             .then((googleUser) => {
-              console.log({ googleUser });
-              const authToken = googleUser.getAuthResponse().id_token;
-              // TODO: send googleUser to server, then send back user object from database
-              // fetch('/api/login', {
-              //   method: 'POST',
-              //   headers: {
-              //     'Content-Type': 'application/json',
-              //   },
-              //   body: JSON.stringify(googleUser),
-              // });
+              const name = googleUser.At.Ve;
+              const auth_token = googleUser
+                .getAuthResponse()
+                .id_token.substring(0, 100);
+              const email = googleUser.At.ku;
+              // send googleUser to server, then send back user object from database
+              fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, auth_token, email }),
+              })
+                .then((res) => res.json())
+                .then(({ name, auth_token, userId }) => {
+                  console.log({ name, auth_token, userId });
+                  setUser({ loggedIn: true, name, auth_token, userId });
+                });
               // TODO: once user object is received from database, pass user object as argument to setUser
-              // TODO: set some user id in local storage or ssid cookie
-              setUser({ loggedIn: true });
             })
             .catch(({ error }) => console.log({ error }));
         });

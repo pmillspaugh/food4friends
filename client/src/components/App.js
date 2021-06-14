@@ -13,8 +13,11 @@ const App = () => {
   const [user, setUser] = useState({
     loggedIn: false,
     name: null,
-    posts: null,
+    auth_token: null,
+    userId: null,
   });
+
+  console.log(user);
 
   return (
     <Router>

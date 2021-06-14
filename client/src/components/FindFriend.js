@@ -2,14 +2,43 @@ import React, { useState } from 'react';
 
 const FindFriend = () => {
   const [search, setSearch] = useState('');
-  const [results, setResults] = useState(['a']);
+  const [results, setResults] = useState([]);
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
 
-  // TODO: backend logic to add friend
-  const handleAddFriend = () => {};
+  // backend logic to find friends
+  const handleFindFriend = () => {
+    fetch('/api/searchUsers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: search }),
+    })
+      .then((res) => res.json())
+      .then((queryResults) => {
+        console.log({ queryResults });
+        setResults(queryResults);
+      });
+  };
+
+  // backend logic to add friends
+  const handleAddFriend = (user_id) => {
+    fetch('/api/followSomeone', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user_id }),
+    })
+      .then((res) => res.json())
+      .then((queryResults) => {
+        console.log({ queryResults });
+        
+      });
+  };
 
   return (
     <article style={style.content}>
@@ -21,13 +50,20 @@ const FindFriend = () => {
           style={style.search}
           type='text'
         />
-        <button style={style.find}>find foodie</button>
+        <button onClick={handleFindFriend} style={style.find}>
+          find foodie
+        </button>
       </div>
       {results.length !== 0 &&
-        results.map((foodie, index) => (
-          <div style={style.result} key={index}>
-            <h3>foodie name</h3>
-            <button style={style.add}>add foodie as a chefriend</button>
+        results.map((foodie) => (
+          <div style={style.result} key={foodie.auth_token}>
+            <h3>{foodie.name}</h3>
+            <button
+              onClick={() => handleAddFriend(foodie.user_id)}
+              style={style.add}
+            >
+              add foodie as a chefriend
+            </button>
           </div>
         ))}
     </article>
