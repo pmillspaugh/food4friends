@@ -1,6 +1,8 @@
 import { hot } from 'react-hot-loader/root';
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Header from './Header';
 import Login from './Login';
 import Feed from './Feed';
 import CreatePost from './CreatePost';
@@ -16,13 +18,8 @@ const App = () => {
 
   return (
     <Router>
-      {/* TODO: extract Header component */}
-      <header>
-        <h1>
-          <Link to='/'>F 4 F</Link>
-        </h1>
-        {user.loggedIn && <button>Log out</button>}
-      </header>
+      <CssBaseline />
+      <Header loggedIn={user.loggedIn} />
       <Switch>
         <Route path='/create-post'>
           <CreatePost />
